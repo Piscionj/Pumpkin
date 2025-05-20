@@ -1,15 +1,14 @@
 use crate::block::registry::BlockActionResult;
-use crate::entity::Entity;
+use crate::entity::EntityBase;
 use crate::entity::player::Player;
 use crate::server::Server;
 use crate::world::World;
 use async_trait::async_trait;
 use pumpkin_data::item::Item;
-use pumpkin_data::{Block, BlockState};
+use pumpkin_data::{Block, BlockDirection, BlockState};
 use pumpkin_protocol::server::play::SUseItemOn;
 use pumpkin_util::math::position::BlockPos;
 use pumpkin_world::BlockStateId;
-use pumpkin_world::block::BlockDirection;
 use pumpkin_world::world::BlockFlags;
 use std::sync::Arc;
 
@@ -53,10 +52,11 @@ pub trait PumpkinBlock: Send + Sync {
     async fn on_entity_collision(
         &self,
         _world: &Arc<World>,
-        _entity: &Entity,
+        _entity: &dyn EntityBase,
         _pos: BlockPos,
         _block: Block,
         _state: BlockState,
+        _server: &Server,
     ) {
     }
 

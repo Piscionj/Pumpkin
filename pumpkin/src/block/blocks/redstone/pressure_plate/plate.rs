@@ -2,16 +2,17 @@ use std::sync::Arc;
 
 use async_trait::async_trait;
 use pumpkin_data::{
-    Block, BlockState,
+    Block, BlockDirection, BlockState,
     block_properties::BlockProperties,
     tag::{RegistryKey, get_tag_values},
 };
 use pumpkin_util::math::{boundingbox::BoundingBox, position::BlockPos};
-use pumpkin_world::{BlockStateId, block::BlockDirection};
+use pumpkin_world::BlockStateId;
 
 use crate::{
     block::pumpkin_block::{BlockMetadata, PumpkinBlock},
-    entity::Entity,
+    entity::EntityBase,
+    server::Server,
     world::World,
 };
 
@@ -44,10 +45,11 @@ impl PumpkinBlock for PressurePlateBlock {
     async fn on_entity_collision(
         &self,
         world: &Arc<World>,
-        _entity: &Entity,
+        _entity: &dyn EntityBase,
         pos: BlockPos,
         block: Block,
         state: BlockState,
+        _server: &Server,
     ) {
         self.on_entity_collision_pp(world, pos, block, state).await;
     }
